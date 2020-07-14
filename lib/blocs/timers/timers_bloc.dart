@@ -41,8 +41,12 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
       timers.sort((a, b) => a.startTime.compareTo(b.startTime));
       yield TimersState(timers, DateTime.now());
     } else if (event is CreateCountdownTimer) {
+      var now = new DateTime.now();
+      var future42Mins = now.add(new Duration(minutes: 42));
       TimerEntry timer = await data.createTimer(
-          description: event.description, projectID: event.project?.id);
+          description: event.description,
+          projectID: event.project?.id,
+          endTime: future42Mins);
       List<TimerEntry> timers =
           state.timers.map((t) => TimerEntry.clone(t)).toList();
       timers.add(timer);
