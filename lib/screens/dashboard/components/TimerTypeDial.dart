@@ -96,7 +96,7 @@ class _TimerTypeDialState extends State<TimerTypeDial>
         child: ScaleTransition(
           scale: CurvedAnimation(
             parent: _controller,
-            curve: Interval(0.0, 0.75, curve: Curves.easeOut),
+            curve: Interval(0.0, 1.0, curve: Curves.easeOut),
           ),
           child: FloatingActionButton(
             heroTag: null,
@@ -107,19 +107,22 @@ class _TimerTypeDialState extends State<TimerTypeDial>
               fit: StackFit.expand,
               children: <Widget>[
                 Positioned(
-                  top: 7,
-                  left: 7.5,
-                  child: Icon(FontAwesomeIcons.stop),
+                  top: 7.5,
+                  left: 8,
+                  child: Icon(FontAwesomeIcons.plus),
                 )
               ],
             ),
-            backgroundColor: Colors.pink[600],
+            backgroundColor: Theme.of(context).accentColor,
             foregroundColor: Theme.of(context).accentIconTheme.color,
             onPressed: () {
               _controller.reverse();
               final TimersBloc timers = BlocProvider.of<TimersBloc>(context);
               assert(timers != null);
-              timers.add(StopAllTimers());
+              timers.add(CreateCountdownTimer(
+                  description: bloc.state.newDescription,
+                  project: bloc.state.newProject));
+              bloc.add(TimerWasStartedEvent());
             },
           ),
         ),
