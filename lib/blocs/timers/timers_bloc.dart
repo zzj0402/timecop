@@ -59,7 +59,8 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
     } else if (event is UpdateNow) {
       yield TimersState(state.timers, DateTime.now());
     } else if (event is StopTimer) {
-      TimerEntry timer = TimerEntry.clone(event.timer, endTime: DateTime.now());
+      TimerEntry timer = TimerEntry.clone(event.timer,
+          endTime: DateTime.now(), finished: true);
       await data.editTimer(timer);
       List<TimerEntry> timers = state.timers.map((t) {
         if (t.id == timer.id) return TimerEntry.clone(timer);
@@ -85,7 +86,8 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
     } else if (event is StopAllTimers) {
       List<Future<TimerEntry>> timerEdits = state.timers.map((t) async {
         if (t.endTime == null) {
-          TimerEntry timer = TimerEntry.clone(t, endTime: DateTime.now());
+          TimerEntry timer =
+              TimerEntry.clone(t, endTime: DateTime.now(), finished: true);
           await data.editTimer(timer);
           return timer;
         }

@@ -29,24 +29,29 @@ class TimerEntry extends Equatable {
       @required this.projectID,
       @required this.startTime,
       @required this.endTime,
-      this.finished})
+      @required this.finished})
       : assert(id != null),
         assert(startTime != null);
 
   @override
-  List<Object> get props => [id, description, projectID, startTime, endTime];
+  List<Object> get props =>
+      [id, description, projectID, startTime, endTime, finished];
   @override
   bool get stringify => true;
 
   TimerEntry.clone(TimerEntry timer,
-      {String description, int projectID, DateTime startTime, DateTime endTime})
+      {String description,
+      int projectID,
+      DateTime startTime,
+      DateTime endTime,
+      bool finished})
       : this(
-          id: timer.id,
-          description: description ?? timer.description,
-          projectID: projectID ?? timer.projectID,
-          startTime: startTime ?? timer.startTime,
-          endTime: endTime ?? timer.endTime,
-        );
+            id: timer.id,
+            description: description ?? timer.description,
+            projectID: projectID ?? timer.projectID,
+            startTime: startTime ?? timer.startTime,
+            endTime: endTime ?? timer.endTime,
+            finished: finished ?? timer.finished);
 
   static String formatDuration(Duration d) {
     if (d.inHours > 0) {
