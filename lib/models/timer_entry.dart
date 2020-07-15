@@ -21,40 +21,54 @@ class TimerEntry extends Equatable {
   final int projectID;
   final DateTime startTime;
   final DateTime endTime;
+  bool finished;
 
-  TimerEntry({@required this.id, @required this.description, @required this.projectID, @required this.startTime, @required this.endTime})
-    : assert(id != null),
-      assert(startTime != null);
+  TimerEntry(
+      {@required this.id,
+      @required this.description,
+      @required this.projectID,
+      @required this.startTime,
+      @required this.endTime,
+      this.finished})
+      : assert(id != null),
+        assert(startTime != null);
 
-  @override List<Object> get props => [id, description, projectID, startTime, endTime];
-  @override bool get stringify => true;
+  @override
+  List<Object> get props => [id, description, projectID, startTime, endTime];
+  @override
+  bool get stringify => true;
 
   TimerEntry.clone(TimerEntry timer,
-    {String description, int projectID, DateTime startTime, DateTime endTime})
-    : this(
-        id: timer.id,
-        description: description ?? timer.description,
-        projectID: projectID ?? timer.projectID,
-        startTime: startTime ?? timer.startTime,
-        endTime: endTime ?? timer.endTime,
-      );
+      {String description, int projectID, DateTime startTime, DateTime endTime})
+      : this(
+          id: timer.id,
+          description: description ?? timer.description,
+          projectID: projectID ?? timer.projectID,
+          startTime: startTime ?? timer.startTime,
+          endTime: endTime ?? timer.endTime,
+        );
 
   static String formatDuration(Duration d) {
-    if(d.inHours > 0) {
-      return
-          d.inHours.toString() + ":"
-        + (d.inMinutes - (d.inHours * 60)).toString().padLeft(2, "0") + ":"
-        + (d.inSeconds - (d.inMinutes * 60)).toString().padLeft(2, "0");
-    }
-    else {
-      return
-          d.inMinutes.toString().padLeft(2, "0") + ":"
-        + (d.inSeconds - (d.inMinutes * 60)).toString().padLeft(2, "0");
+    if (d.inHours > 0) {
+      return d.inHours.toString() +
+          ":" +
+          (d.inMinutes - (d.inHours * 60)).toString().padLeft(2, "0") +
+          ":" +
+          (d.inSeconds - (d.inMinutes * 60)).toString().padLeft(2, "0");
+    } else {
+      return d.inMinutes.toString().padLeft(2, "0") +
+          ":" +
+          (d.inSeconds - (d.inMinutes * 60)).toString().padLeft(2, "0");
     }
   }
 
   String formatTime() {
     Duration d = (endTime ?? DateTime.now()).difference(startTime);
+    return formatDuration(d);
+  }
+
+  String countdownTime() {
+    Duration d = (endTime ?? DateTime.now()).difference(endTime);
     return formatDuration(d);
   }
 }

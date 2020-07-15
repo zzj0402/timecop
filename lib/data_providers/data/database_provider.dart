@@ -112,11 +112,13 @@ class DatabaseProvider extends DataProvider {
   }
 
   /// the c in crud
+  @override
   Future<TimerEntry> createTimer(
       {String description,
       int projectID,
       DateTime startTime,
-      DateTime endTime}) async {
+      DateTime endTime,
+      bool finished}) async {
     var st = startTime?.millisecondsSinceEpoch ??
         DateTime.now().millisecondsSinceEpoch;
     assert(st != null);
@@ -129,7 +131,31 @@ class DatabaseProvider extends DataProvider {
         description: description,
         projectID: projectID,
         startTime: DateTime.fromMillisecondsSinceEpoch(st),
-        endTime: endTime);
+        endTime: endTime,
+        finished: finished);
+  }
+
+  @override
+  Future<TimerEntry> createCountdownTimer(
+      {String description,
+      int projectID,
+      DateTime startTime,
+      DateTime endTime,
+      bool finished}) async {
+    var st = startTime?.millisecondsSinceEpoch ??
+        DateTime.now().millisecondsSinceEpoch;
+    var et = endTime?.millisecondsSinceEpoch;
+    assert(et != null);
+    var id = await _db.rawInsert(
+        'insert into timers(project_id, description, start_time, end_time) values(?, ?, ?, ?)',
+        <dynamic>[projectID, description, st, et]);
+    return TimerEntry(
+        id: id,
+        description: description,
+        projectID: projectID,
+        startTime: DateTime.fromMillisecondsSinceEpoch(st),
+        endTime: endTime,
+        finished: finished);
   }
 
   /// the r in crud

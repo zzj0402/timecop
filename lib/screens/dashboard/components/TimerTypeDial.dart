@@ -117,7 +117,7 @@ class _TimerTypeDialState extends State<TimerTypeDial>
             foregroundColor: Theme.of(context).accentIconTheme.color,
             onPressed: () {
               _controller.reverse();
-              final TimersBloc timers = BlocProvider.of<TimersBloc>(context);
+              var timers = BlocProvider.of<TimersBloc>(context);
               assert(timers != null);
               timers.add(CreateCountdownTimer(
                   description: bloc.state.newDescription,
