@@ -132,7 +132,8 @@ class DatabaseProvider extends DataProvider {
         projectID: projectID,
         startTime: DateTime.fromMillisecondsSinceEpoch(st),
         endTime: endTime,
-        finished: finished);
+        finished: finished,
+        countdown: false);
   }
 
   @override
@@ -155,7 +156,8 @@ class DatabaseProvider extends DataProvider {
         projectID: projectID,
         startTime: DateTime.fromMillisecondsSinceEpoch(st),
         endTime: endTime,
-        finished: finished);
+        finished: finished,
+        countdown: true);
   }
 
   /// the r in crud

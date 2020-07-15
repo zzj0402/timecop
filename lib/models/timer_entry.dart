@@ -22,6 +22,7 @@ class TimerEntry extends Equatable {
   final DateTime startTime;
   final DateTime endTime;
   bool finished;
+  bool countdown;
 
   TimerEntry(
       {@required this.id,
@@ -29,7 +30,8 @@ class TimerEntry extends Equatable {
       @required this.projectID,
       @required this.startTime,
       @required this.endTime,
-      @required this.finished})
+      @required this.finished,
+      @required this.countdown})
       : assert(id != null),
         assert(startTime != null);
 
@@ -44,14 +46,16 @@ class TimerEntry extends Equatable {
       int projectID,
       DateTime startTime,
       DateTime endTime,
-      bool finished})
+      bool finished,
+      bool countdown})
       : this(
             id: timer.id,
             description: description ?? timer.description,
             projectID: projectID ?? timer.projectID,
             startTime: startTime ?? timer.startTime,
             endTime: endTime ?? timer.endTime,
-            finished: finished ?? timer.finished);
+            finished: finished ?? timer.finished,
+            countdown: countdown ?? timer.countdown);
 
   static String formatDuration(Duration d) {
     if (d.inHours > 0) {
@@ -73,7 +77,7 @@ class TimerEntry extends Equatable {
   }
 
   String countdownTime() {
-    Duration d = (endTime ?? DateTime.now()).difference(endTime);
+    Duration d = (endTime).difference(startTime);
     return formatDuration(d);
   }
 }

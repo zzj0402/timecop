@@ -19,6 +19,7 @@ import 'package:timecop/l10n.dart';
 import 'package:timecop/models/timer_entry.dart';
 import 'package:timecop/screens/dashboard/bloc/dashboard_bloc.dart';
 
+import 'CountdownTimerRow.dart';
 import 'RunningTimerRow.dart';
 
 class RunningTimers extends StatelessWidget {
@@ -36,7 +37,13 @@ class RunningTimers extends StatelessWidget {
           builder: (BuildContext context, TimersState timersState) {
             List<TimerEntry> runningTimers =
                 timersState.timers.where((timer) => !timer.finished).toList();
-            if (runningTimers.isEmpty) {
+            List<TimerEntry> countupTimers = timersState.timers
+                .where((timer) => !timer.finished && !timer.countdown)
+                .toList();
+            List<TimerEntry> countdownTimers = timersState.timers
+                .where((timer) => !timer.finished && timer.countdown)
+                .toList();
+            if (runningTimers.isEmpty && countdownTimers.isEmpty) {
               return Container();
             }
 
@@ -80,8 +87,10 @@ class RunningTimers extends StatelessWidget {
                     ),
                   ),
                 ]
-                    .followedBy(runningTimers.map((timer) =>
+                    .followedBy(countupTimers.map((timer) =>
                         RunningTimerRow(timer: timer, now: timersState.now)))
+                    .followedBy(countdownTimers.map((timer) =>
+                        CountdownTimerRow(timer: timer, now: timersState.now)))
                     .toList(),
               ),
             );
