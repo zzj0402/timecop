@@ -109,7 +109,7 @@ class _TimerTypeDialState extends State<TimerTypeDial>
                 Positioned(
                   top: 7.5,
                   left: 8,
-                  child: Icon(FontAwesomeIcons.plus),
+                  child: Icon(FontAwesomeIcons.arrowDown),
                 )
               ],
             ),
