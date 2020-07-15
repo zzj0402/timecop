@@ -25,6 +25,7 @@ class SettingsState extends Equatable {
   final bool exportIncludeEndTime;
   final bool exportIncludeDurationHours;
   final int defaultProjectID;
+  final int countdownDuration;
   final bool groupTimers;
   final bool collapseDays;
   final bool autocompleteDescription;
@@ -44,6 +45,7 @@ class SettingsState extends Equatable {
     @required this.collapseDays,
     @required this.autocompleteDescription,
     @required this.defaultFilterStartDateToMonday,
+    @required this.countdownDuration,
   })  : assert(exportGroupTimers != null),
         assert(exportIncludeDate != null),
         assert(exportIncludeProject != null),
@@ -53,6 +55,7 @@ class SettingsState extends Equatable {
         assert(exportIncludeEndTime != null),
         assert(exportIncludeDurationHours != null),
         assert(defaultProjectID != null),
+        assert(countdownDuration != null && countdownDuration != 0),
         assert(groupTimers != null),
         assert(collapseDays != null),
         assert(autocompleteDescription != null),
@@ -69,6 +72,7 @@ class SettingsState extends Equatable {
       exportIncludeEndTime: false,
       exportIncludeDurationHours: true,
       defaultProjectID: -1,
+      countdownDuration: 42,
       groupTimers: true,
       collapseDays: false,
       autocompleteDescription: true,
@@ -76,7 +80,8 @@ class SettingsState extends Equatable {
     );
   }
 
-  SettingsState.clone(SettingsState project, {
+  SettingsState.clone(
+    SettingsState project, {
     bool exportGroupTimers,
     bool exportIncludeDate,
     bool exportIncludeProject,
@@ -86,37 +91,34 @@ class SettingsState extends Equatable {
     bool exportIncludeEndTime,
     bool exportIncludeDurationHours,
     int defaultProjectID,
+    int countdownDuration,
     bool groupTimers,
     bool collapseDays,
     bool autocompleteDescription,
     bool defaultFilterStartDateToMonday,
-  }) 
-    : this(
+  }) : this(
           exportGroupTimers: exportGroupTimers ?? project.exportGroupTimers,
-          exportIncludeDate: 
-              exportIncludeDate ?? project.exportIncludeDate,
+          exportIncludeDate: exportIncludeDate ?? project.exportIncludeDate,
           exportIncludeProject:
               exportIncludeProject ?? project.exportIncludeProject,
           exportIncludeDescription:
               exportIncludeDescription ?? project.exportIncludeDescription,
-          exportIncludeProjectDescription: 
-              exportIncludeProjectDescription ?? project.exportIncludeProjectDescription,
+          exportIncludeProjectDescription: exportIncludeProjectDescription ??
+              project.exportIncludeProjectDescription,
           exportIncludeStartTime:
               exportIncludeStartTime ?? project.exportIncludeStartTime,
           exportIncludeEndTime:
               exportIncludeEndTime ?? project.exportIncludeEndTime,
           exportIncludeDurationHours:
               exportIncludeDurationHours ?? project.exportIncludeDurationHours,
-          defaultProjectID: 
-              defaultProjectID ?? project.defaultProjectID,
-          groupTimers: 
-              groupTimers ?? project.groupTimers,
-          collapseDays: 
-              collapseDays ?? project.collapseDays,
+          defaultProjectID: defaultProjectID ?? project.defaultProjectID,
+          countdownDuration: countdownDuration ?? project.countdownDuration,
+          groupTimers: groupTimers ?? project.groupTimers,
+          collapseDays: collapseDays ?? project.collapseDays,
           autocompleteDescription:
               autocompleteDescription ?? project.autocompleteDescription,
-          defaultFilterStartDateToMonday: 
-              defaultFilterStartDateToMonday ?? project.defaultFilterStartDateToMonday,
+          defaultFilterStartDateToMonday: defaultFilterStartDateToMonday ??
+              project.defaultFilterStartDateToMonday,
         );
 
   @override
@@ -130,6 +132,7 @@ class SettingsState extends Equatable {
         exportIncludeEndTime,
         exportIncludeDurationHours,
         defaultProjectID,
+        countdownDuration,
         groupTimers,
         collapseDays,
         autocompleteDescription,
