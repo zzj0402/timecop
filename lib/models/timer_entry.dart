@@ -77,7 +77,7 @@ class TimerEntry extends Equatable {
   }
 
   String countdownTime() {
-    Duration d = (endTime).difference(startTime);
+    Duration d = (endTime).difference(DateTime.now());
     return formatDuration(d);
   }
 }
