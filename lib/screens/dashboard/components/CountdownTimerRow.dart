@@ -22,6 +22,7 @@ import 'package:timecop/components/ProjectColour.dart';
 import 'package:timecop/l10n.dart';
 import 'package:timecop/models/timer_entry.dart';
 import 'package:timecop/screens/timer/TimerEditor.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class CountdownTimerRow extends StatelessWidget {
   final TimerEntry timer;
@@ -47,6 +48,9 @@ class CountdownTimerRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (timer.timeLeft() == 0 && !timer.finished) {
+      FlutterRingtonePlayer.playAlarm();
+    }
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.15,
@@ -105,6 +109,8 @@ class CountdownTimerRow extends StatelessWidget {
             final TimersBloc timers = BlocProvider.of<TimersBloc>(context);
             assert(timers != null);
             timers.add(StopTimer(timer));
+            FlutterRingtonePlayer.stop();
+            timer.finished = true;
           },
         )
       ],

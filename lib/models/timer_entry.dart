@@ -80,4 +80,9 @@ class TimerEntry extends Equatable {
     Duration d = (endTime).difference(DateTime.now());
     return formatDuration(d);
   }
+
+  int timeLeft() {
+    Duration d = (endTime).difference(DateTime.now());
+    return d.inSeconds;
+  }
 }

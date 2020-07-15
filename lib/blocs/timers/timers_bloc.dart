@@ -14,6 +14,7 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:timecop/data_providers/data/data_provider.dart';
 import 'package:timecop/models/timer_entry.dart';
 import './bloc.dart';
@@ -44,7 +45,7 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
       yield TimersState(timers, DateTime.now());
     } else if (event is CreateCountdownTimer) {
       var now = new DateTime.now();
-      var future42Mins = now.add(new Duration(minutes: 42));
+      var future42Mins = now.add(new Duration(seconds: 1));
       TimerEntry timer = await data.createCountdownTimer(
           description: event.description,
           projectID: event.project?.id,
@@ -67,6 +68,7 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
         return TimerEntry.clone(t);
       }).toList();
       timers.sort((a, b) => a.startTime.compareTo(b.startTime));
+      FlutterRingtonePlayer.stop();
       yield TimersState(timers, DateTime.now());
     } else if (event is EditTimer) {
       await data.editTimer(event.timer);

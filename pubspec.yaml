@@ -3,7 +3,7 @@ description: Simple private time tracking.
 version: 1.6.0+32
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: '>=2.6.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -30,6 +30,7 @@ dependencies:
   fl_chart: ^0.8.3
   flutter_swiper: ^1.1.6
   flutter_typeahead: ^1.8.0
+  flutter_ringtone_player: ^2.0.0
 
 dev_dependencies:
   pedantic: ^1.0.0
@@ -43,11 +44,11 @@ dev_dependencies:
   test: ^1.5.1
 
 flutter_icons:
-  android: "launcher_icon"
+  android: 'launcher_icon'
   ios: true
-  image_path: "icon.png"
-  adaptive_icon_background: "#263238"
-  adaptive_icon_foreground: "icon_android_fg.png"
+  image_path: 'icon.png'
+  adaptive_icon_background: '#263238'
+  adaptive_icon_foreground: 'icon_android_fg.png'
 
 flutter:
   uses-material-design: true
