@@ -5,11 +5,9 @@
 
 ## Motivation
 
-### Pomodoro Technique
+### [Pomodoro Technique](https://en.wikipedia.org/wiki/Pomodoro_Technique)
 
-<https://en.wikipedia.org/wiki/Pomodoro_Technique>
-
-### Atomic Habits
+### [Atomic Habits](https://www.amazon.com/Atomic-Habits-Proven-Build-Break/dp/0735211299)
 
 ## Features
 
