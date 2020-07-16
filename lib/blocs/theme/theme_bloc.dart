@@ -15,16 +15,15 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc(this.settings);
 
   @override
-  ThemeState get initialState => ThemeState(ThemeType.auto);
+  ThemeState get initialState => ThemeState(ThemeType.black);
 
   @override
   Stream<ThemeState> mapEventToState(
     ThemeEvent event,
   ) async* {
-    if(event is LoadThemeEvent) {
+    if (event is LoadThemeEvent) {
       yield ThemeState(settings.getTheme());
-    }
-    else if(event is ChangeThemeEvent) {
+    } else if (event is ChangeThemeEvent) {
       settings.setTheme(event.theme);
       yield ThemeState(event.theme);
     }
