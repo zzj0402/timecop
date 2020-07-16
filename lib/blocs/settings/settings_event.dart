@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/src/services/text_input.dart';
 
 abstract class SettingsEvent extends Equatable {
   const SettingsEvent();
@@ -80,7 +81,8 @@ class SetDefaultProjectID extends SettingsEvent {
 
 class SetCountdownDuration extends SettingsEvent {
   final int duration;
-  const SetCountdownDuration(this.duration);
+  const SetCountdownDuration(this.duration,
+      {TextEditingValue countdown_duration});
   @override
   List<Object> get props => [duration];
 }

@@ -14,6 +14,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:timecop/blocs/locale/locale_bloc.dart';
 import 'package:timecop/blocs/settings/bloc.dart';
 import 'package:timecop/blocs/theme/theme_bloc.dart';
@@ -30,7 +31,7 @@ class SettingsScreen extends StatelessWidget {
     final ThemeBloc themeBloc = BlocProvider.of<ThemeBloc>(context);
     final LocaleBloc localeBloc = BlocProvider.of<LocaleBloc>(context);
     final SettingsBloc settingsBloc = BlocProvider.of<SettingsBloc>(context);
-
+    var durationController = TextEditingController();
     return Scaffold(
         appBar: AppBar(
           title: Text(L10N.of(context).tr.settings),
@@ -92,6 +93,20 @@ class SettingsScreen extends StatelessWidget {
               builder: (BuildContext context, SettingsState settings) =>
                   ListTile(
                 title: Text(L10N.of(context).tr.countdownDuration),
+                subtitle: NumberInputWithIncrementDecrement(
+                  controller: durationController,
+                  initialValue: settingsBloc.state.countdownDuration,
+                  min: 0,
+                ),
+                trailing: RaisedButton(
+                  onPressed: () => settingsBloc.add(SetCountdownDuration(
+                      int.parse(durationController.value.text))),
+                  child: const Text('Set', style: TextStyle(fontSize: 18)),
+                ),
+                onTap: () => {
+                  settingsBloc.add(SetCountdownDuration(
+                      int.parse(durationController.value.text))),
+                },
               ),
             ),
           ],

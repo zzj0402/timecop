@@ -69,7 +69,8 @@ class StopAllTimers extends TimersEvent {
 class CreateCountdownTimer extends TimersEvent {
   final String description;
   final Project project;
-  CreateCountdownTimer({this.description, this.project});
+  final int duration;
+  CreateCountdownTimer({this.description, this.project, this.duration});
   @override
   List<Object> get props => [description, project];
 }

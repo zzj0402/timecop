@@ -15,6 +15,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:timecop/blocs/settings/bloc.dart';
 import 'package:timecop/blocs/timers/bloc.dart';
 import 'package:timecop/screens/dashboard/bloc/dashboard_bloc.dart';
 
@@ -119,9 +120,11 @@ class _TimerTypeDialState extends State<TimerTypeDial>
               _controller.reverse();
               var timers = BlocProvider.of<TimersBloc>(context);
               assert(timers != null);
+              var settings = BlocProvider.of<SettingsBloc>(context);
               timers.add(CreateCountdownTimer(
                   description: bloc.state.newDescription,
-                  project: bloc.state.newProject));
+                  project: bloc.state.newProject,
+                  duration: settings.state.countdownDuration));
               bloc.add(TimerWasStartedEvent());
             },
           ),
