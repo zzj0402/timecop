@@ -53,6 +53,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
               state.exportIncludeDurationHours;
       int defaultProjectID =
           await settings.getInt("defaultProjectID") ?? state.defaultProjectID;
+      int countdownDuration =
+          await settings.getInt("countdownDuration") ?? state.countdownDuration;
       bool groupTimers =
           await settings.getBool("groupTimers") ?? state.groupTimers;
       bool collapseDays =
@@ -73,6 +75,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           exportIncludeEndTime: exportIncludeEndTime,
           exportIncludeDurationHours: exportIncludeDurationHours,
           defaultProjectID: defaultProjectID,
+          countdownDuration: countdownDuration,
           groupTimers: groupTimers,
           collapseDays: collapseDays,
           autocompleteDescription: autocompleteDescription,

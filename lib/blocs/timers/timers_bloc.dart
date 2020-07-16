@@ -68,7 +68,7 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
         return TimerEntry.clone(t);
       }).toList();
       timers.sort((a, b) => a.startTime.compareTo(b.startTime));
-      FlutterRingtonePlayer.stop();
+      await FlutterRingtonePlayer.stop();
       yield TimersState(timers, DateTime.now());
     } else if (event is EditTimer) {
       await data.editTimer(event.timer);
@@ -84,6 +84,7 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
           .where((t) => t.id != event.timer.id)
           .map((t) => TimerEntry.clone(t))
           .toList();
+      await FlutterRingtonePlayer.stop();
       yield TimersState(timers, DateTime.now());
     } else if (event is StopAllTimers) {
       List<Future<TimerEntry>> timerEdits = state.timers.map((t) async {

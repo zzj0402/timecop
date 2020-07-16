@@ -23,7 +23,6 @@ import 'package:timecop/l10n.dart';
 import 'package:timecop/models/project.dart';
 import 'package:timecop/models/timer_entry.dart';
 import 'package:timecop/screens/timer/TimerEditor.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class StoppedTimerRow extends StatelessWidget {
   final TimerEntry timer;
