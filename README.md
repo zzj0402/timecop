@@ -1,9 +1,7 @@
 # Attenti
 
-  <img alt="GitHub" src="https://img.shields.io/github/license/hamaluik/timecop?style=flat-square">
-
-![Attenti](icon.png 'logo')
-![LaunchIcon](launch_icon.png 'icon')
+<img src="icon.png" alt="drawing" width="45"/>
+<img alt="GitHub" src="https://img.shields.io/github/license/hamaluik/timecop?style=flat-square">
 
 ## Motivation
 
