@@ -13,13 +13,15 @@
 // limitations under the License.
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/src/services/text_input.dart';
 
 abstract class SettingsEvent extends Equatable {
   const SettingsEvent();
 }
 
 class LoadSettingsFromRepository extends SettingsEvent {
-  @override List<Object> get props => [];
+  @override
+  List<Object> get props => [];
 }
 
 /*class SetExportGroupTimers extends SettingsEvent {
@@ -73,7 +75,16 @@ class SetExportIncludeDurationHours extends SettingsEvent {
 class SetDefaultProjectID extends SettingsEvent {
   final int projectID;
   const SetDefaultProjectID(this.projectID);
-  @override List<Object> get props => [projectID];
+  @override
+  List<Object> get props => [projectID];
+}
+
+class SetCountdownDuration extends SettingsEvent {
+  final int duration;
+  const SetCountdownDuration(this.duration,
+      {TextEditingValue countdown_duration});
+  @override
+  List<Object> get props => [duration];
 }
 
 class SetBoolValueEvent extends SettingsEvent {
@@ -90,7 +101,33 @@ class SetBoolValueEvent extends SettingsEvent {
   final bool autocompleteDescription;
   final bool defaultFilterStartDateToMonday;
 
-  const SetBoolValueEvent({this.exportGroupTimers, this.exportIncludeDate, this.exportIncludeProject, this.exportIncludeDescription, this.exportIncludeProjectDescription, this.exportIncludeStartTime, this.exportIncludeEndTime, this.exportIncludeDurationHours, this.groupTimers, this.collapseDays, this.autocompleteDescription,this.defaultFilterStartDateToMonday});
+  const SetBoolValueEvent(
+      {this.exportGroupTimers,
+      this.exportIncludeDate,
+      this.exportIncludeProject,
+      this.exportIncludeDescription,
+      this.exportIncludeProjectDescription,
+      this.exportIncludeStartTime,
+      this.exportIncludeEndTime,
+      this.exportIncludeDurationHours,
+      this.groupTimers,
+      this.collapseDays,
+      this.autocompleteDescription,
+      this.defaultFilterStartDateToMonday});
 
-  @override List<Object> get props => [exportGroupTimers, exportIncludeDate, exportIncludeProject, exportIncludeDescription, exportIncludeProjectDescription, exportIncludeStartTime, exportIncludeEndTime, exportIncludeDurationHours, groupTimers, collapseDays, autocompleteDescription, defaultFilterStartDateToMonday];
+  @override
+  List<Object> get props => [
+        exportGroupTimers,
+        exportIncludeDate,
+        exportIncludeProject,
+        exportIncludeDescription,
+        exportIncludeProjectDescription,
+        exportIncludeStartTime,
+        exportIncludeEndTime,
+        exportIncludeDurationHours,
+        groupTimers,
+        collapseDays,
+        autocompleteDescription,
+        defaultFilterStartDateToMonday
+      ];
 }

@@ -20,14 +20,16 @@ import 'package:timecop/blocs/projects/bloc.dart';
 import 'package:timecop/blocs/timers/bloc.dart';
 import 'package:timecop/components/ProjectColour.dart';
 import 'package:timecop/l10n.dart';
-import 'package:timecop/models/project.dart';
 import 'package:timecop/models/timer_entry.dart';
 import 'package:timecop/screens/timer/TimerEditor.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
-class StoppedTimerRow extends StatelessWidget {
+class CountdownTimerRow extends StatelessWidget {
   final TimerEntry timer;
-  const StoppedTimerRow({Key key, @required this.timer})
+  final DateTime now;
+  const CountdownTimerRow({Key key, @required this.timer, @required this.now})
       : assert(timer != null),
+        assert(now != null),
         super(key: key);
 
   static String formatDescription(BuildContext context, String description) {
@@ -46,18 +48,19 @@ class StoppedTimerRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    assert(timer.endTime != null);
+    if (timer.timeLeft() == 0 && !timer.finished) {
+      FlutterRingtonePlayer.playAlarm();
+    }
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.15,
       child: ListTile(
-          key: Key("stoppedTimer-" + timer.id.toString()),
           leading: ProjectColour(
               project: BlocProvider.of<ProjectsBloc>(context)
                   .getProjectByID(timer.projectID)),
           title: Text(formatDescription(context, timer.description),
               style: styleDescription(context, timer.description)),
-          trailing: Text(timer.formatTime(),
+          trailing: Text(timer.countdownTime(),
               style: TextStyle(fontFamily: "FiraMono")),
           onTap: () =>
               Navigator.of(context).push(MaterialPageRoute<TimerEditor>(
@@ -99,20 +102,17 @@ class StoppedTimerRow extends StatelessWidget {
       ],
       secondaryActions: <Widget>[
         IconSlideAction(
-            color: Theme.of(context).accentColor,
-            foregroundColor: Theme.of(context).accentIconTheme.color,
-            icon: FontAwesomeIcons.play,
-            onTap: () {
-              final TimersBloc timersBloc =
-                  BlocProvider.of<TimersBloc>(context);
-              assert(timersBloc != null);
-              final ProjectsBloc projectsBloc =
-                  BlocProvider.of<ProjectsBloc>(context);
-              assert(projectsBloc != null);
-              Project project = projectsBloc.getProjectByID(timer.projectID);
-              timersBloc.add(CreateTimer(
-                  description: timer.description, project: project));
-            })
+          color: Theme.of(context).accentColor,
+          foregroundColor: Theme.of(context).accentIconTheme.color,
+          icon: FontAwesomeIcons.solidStopCircle,
+          onTap: () {
+            final TimersBloc timers = BlocProvider.of<TimersBloc>(context);
+            assert(timers != null);
+            timers.add(StopTimer(timer));
+            FlutterRingtonePlayer.stop();
+            timer.finished = true;
+          },
+        )
       ],
     );
   }

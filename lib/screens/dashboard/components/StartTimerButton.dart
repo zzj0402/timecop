@@ -18,6 +18,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timecop/blocs/timers/bloc.dart';
 import 'package:timecop/screens/dashboard/bloc/dashboard_bloc.dart';
 import 'package:timecop/screens/dashboard/components/StartTimerSpeedDial.dart';
+import 'package:timecop/screens/dashboard/components/TimerTypeDial.dart';
 
 class StartTimerButton extends StatefulWidget {
   StartTimerButton({Key key}) : super(key: key);
@@ -33,36 +34,12 @@ class _StartTimerButtonState extends State<StartTimerButton> {
     assert(bloc != null);
 
     return BlocBuilder<TimersBloc, TimersState>(
-      builder: (BuildContext context, TimersState timersState) {
-        if(timersState.timers.where((t) => t.endTime == null).isEmpty) {
-          return FloatingActionButton(
-            key: Key("startTimerButton"),
-            child: Stack(
-              // shenanigans to properly centre the icon (font awesome glyphs are variable
-              // width but the library currently doesn't deal with that)
-              fit: StackFit.expand,
-              children: <Widget>[
-                Positioned(
-                  top: 15,
-                  left: 18,
-                  child: Icon(FontAwesomeIcons.play),
-                )
-              ],
-            ),
-            backgroundColor: Theme.of(context).accentColor,
-            foregroundColor: Theme.of(context).accentIconTheme.color,
-            onPressed: () {
-              final TimersBloc timers = BlocProvider.of<TimersBloc>(context);
-              assert(timers != null);
-              timers.add(CreateTimer(description: bloc.state.newDescription, project: bloc.state.newProject));
-              bloc.add(TimerWasStartedEvent());
-            },
-          );
-        }
-        else {
-          return StartTimerSpeedDial();
-        }
+        builder: (BuildContext context, TimersState timersState) {
+      if (timersState.timers.where((t) => t.endTime == null).isEmpty) {
+        return TimerTypeDial();
+      } else {
+        return StartTimerSpeedDial();
       }
-    );
+    });
   }
 }

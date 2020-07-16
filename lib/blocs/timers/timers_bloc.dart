@@ -14,6 +14,7 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:timecop/data_providers/data/data_provider.dart';
 import 'package:timecop/models/timer_entry.dart';
 import './bloc.dart';
@@ -32,30 +33,44 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
     if (event is LoadTimers) {
       List<TimerEntry> timers = await data.listTimers();
       yield TimersState(timers, DateTime.now());
-    }
-    else if (event is CreateTimer) {
+    } else if (event is CreateTimer) {
       TimerEntry timer = await data.createTimer(
-          description: event.description, projectID: event.project?.id);
+          description: event.description,
+          projectID: event.project?.id,
+          finished: false);
       List<TimerEntry> timers =
           state.timers.map((t) => TimerEntry.clone(t)).toList();
       timers.add(timer);
       timers.sort((a, b) => a.startTime.compareTo(b.startTime));
       yield TimersState(timers, DateTime.now());
-    }
-    else if (event is UpdateNow) {
+    } else if (event is CreateCountdownTimer) {
+      var now = new DateTime.now();
+      var endTime = now.add(new Duration(minutes: event.duration));
+      TimerEntry timer = await data.createCountdownTimer(
+          description: event.description,
+          projectID: event.project?.id,
+          startTime: now,
+          endTime: endTime,
+          finished: false);
+      List<TimerEntry> timers =
+          state.timers.map((t) => TimerEntry.clone(t)).toList();
+      timers.add(timer);
+      timers.sort((a, b) => a.startTime.compareTo(b.startTime));
+      yield TimersState(timers, DateTime.now());
+    } else if (event is UpdateNow) {
       yield TimersState(state.timers, DateTime.now());
-    }
-    else if (event is StopTimer) {
-      TimerEntry timer = TimerEntry.clone(event.timer, endTime: DateTime.now());
+    } else if (event is StopTimer) {
+      TimerEntry timer = TimerEntry.clone(event.timer,
+          endTime: DateTime.now(), finished: true);
       await data.editTimer(timer);
       List<TimerEntry> timers = state.timers.map((t) {
         if (t.id == timer.id) return TimerEntry.clone(timer);
         return TimerEntry.clone(t);
       }).toList();
       timers.sort((a, b) => a.startTime.compareTo(b.startTime));
+      await FlutterRingtonePlayer.stop();
       yield TimersState(timers, DateTime.now());
-    }
-    else if (event is EditTimer) {
+    } else if (event is EditTimer) {
       await data.editTimer(event.timer);
       List<TimerEntry> timers = state.timers.map((t) {
         if (t.id == event.timer.id) return TimerEntry.clone(event.timer);
@@ -63,19 +78,19 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
       }).toList();
       timers.sort((a, b) => a.startTime.compareTo(b.startTime));
       yield TimersState(timers, DateTime.now());
-    }
-    else if (event is DeleteTimer) {
+    } else if (event is DeleteTimer) {
       await data.deleteTimer(event.timer);
       List<TimerEntry> timers = state.timers
           .where((t) => t.id != event.timer.id)
           .map((t) => TimerEntry.clone(t))
           .toList();
+      await FlutterRingtonePlayer.stop();
       yield TimersState(timers, DateTime.now());
-    }
-    else if(event is StopAllTimers) {
+    } else if (event is StopAllTimers) {
       List<Future<TimerEntry>> timerEdits = state.timers.map((t) async {
         if (t.endTime == null) {
-          TimerEntry timer = TimerEntry.clone(t, endTime: DateTime.now());
+          TimerEntry timer =
+              TimerEntry.clone(t, endTime: DateTime.now(), finished: true);
           await data.editTimer(timer);
           return timer;
         }
