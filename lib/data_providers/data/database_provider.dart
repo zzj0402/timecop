@@ -118,7 +118,8 @@ class DatabaseProvider extends DataProvider {
       int projectID,
       DateTime startTime,
       DateTime endTime,
-      bool finished}) async {
+      bool finished,
+      bool countdown}) async {
     var st = startTime?.millisecondsSinceEpoch ??
         DateTime.now().millisecondsSinceEpoch;
     assert(st != null);
@@ -133,7 +134,7 @@ class DatabaseProvider extends DataProvider {
         startTime: DateTime.fromMillisecondsSinceEpoch(st),
         endTime: endTime,
         finished: finished,
-        countdown: false);
+        countdown: countdown);
   }
 
   @override
@@ -142,7 +143,8 @@ class DatabaseProvider extends DataProvider {
       int projectID,
       DateTime startTime,
       DateTime endTime,
-      bool finished}) async {
+      bool finished,
+      bool countdown}) async {
     var st = startTime?.millisecondsSinceEpoch ??
         DateTime.now().millisecondsSinceEpoch;
     var et = endTime?.millisecondsSinceEpoch;
@@ -157,7 +159,7 @@ class DatabaseProvider extends DataProvider {
         startTime: DateTime.fromMillisecondsSinceEpoch(st),
         endTime: endTime,
         finished: finished,
-        countdown: true);
+        countdown: countdown);
   }
 
   /// the r in crud

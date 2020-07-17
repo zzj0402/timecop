@@ -37,7 +37,7 @@ class TimerEntry extends Equatable {
 
   @override
   List<Object> get props =>
-      [id, description, projectID, startTime, endTime, finished];
+      [id, description, projectID, startTime, endTime, finished, countdown];
   @override
   bool get stringify => true;
 

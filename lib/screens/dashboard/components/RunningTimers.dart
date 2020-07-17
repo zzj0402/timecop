@@ -35,6 +35,8 @@ class RunningTimers extends StatelessWidget {
 
         return BlocBuilder<TimersBloc, TimersState>(
           builder: (BuildContext context, TimersState timersState) {
+            timersState.timers.removeWhere(
+                (timer) => timer.finished == null || timer.countdown == null);
             List<TimerEntry> runningTimers =
                 timersState.timers.where((timer) => !timer.finished).toList();
             List<TimerEntry> countupTimers = timersState.timers
