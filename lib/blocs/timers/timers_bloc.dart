@@ -32,6 +32,8 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
   ) async* {
     if (event is LoadTimers) {
       List<TimerEntry> timers = await data.listTimers();
+      timers.removeWhere(
+          (timer) => timer.finished == null || timer.countdown == null);
       yield TimersState(timers, DateTime.now());
     } else if (event is CreateTimer) {
       TimerEntry timer = await data.createTimer(
