@@ -29,16 +29,11 @@ class AboutScreen extends StatelessWidget {
       key: Key("aboutPage"),
       title: Text(L10N.of(context).tr.about),
       applicationVersion: 'v{{ version }}+{{ buildNumber }}',
-      applicationDescription: Text(
-        L10N.of(context).tr.appDescription,
-        textAlign: TextAlign.justify,
-      ),
       applicationIcon: SvgPicture.asset(
         "icon.no-bg.cyan.svg",
         semanticsLabel: L10N.of(context).tr.logoSemantics,
         height: 100,
       ),
-      applicationLegalese: L10N.of(context).tr.appLegalese,
       children: <Widget>[
         MarkdownPageListTile(
           filename: 'README.md',
@@ -58,7 +53,7 @@ class AboutScreen extends StatelessWidget {
         ListTile(
           leading: Icon(FontAwesomeIcons.code),
           title: Text(L10N.of(context).tr.sourceCode),
-          onTap: () => launch("https://github.com/hamaluik/timecop"),
+          onTap: () => launch("https://github.com/zzj0402/timecop"),
         ),
         LicensesPageListTile(
           icon: Icon(FontAwesomeIcons.scroll),
