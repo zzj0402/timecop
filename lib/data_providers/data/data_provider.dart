@@ -26,13 +26,15 @@ abstract class DataProvider {
       int projectID,
       DateTime startTime,
       DateTime endTime,
-      bool finished});
+      bool finished,
+      bool countdown});
   Future<TimerEntry> createCountdownTimer(
       {String description,
       int projectID,
       DateTime startTime,
       DateTime endTime,
-      bool finished});
+      bool finished,
+      bool countdown});
   Future<List<TimerEntry>> listTimers();
   Future<void> editTimer(TimerEntry timer);
   Future<void> deleteTimer(TimerEntry timer);

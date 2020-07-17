@@ -32,12 +32,15 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
   ) async* {
     if (event is LoadTimers) {
       List<TimerEntry> timers = await data.listTimers();
+      timers.removeWhere(
+          (timer) => timer.finished == null || timer.countdown == null);
       yield TimersState(timers, DateTime.now());
     } else if (event is CreateTimer) {
       TimerEntry timer = await data.createTimer(
           description: event.description,
           projectID: event.project?.id,
-          finished: false);
+          finished: false,
+          countdown: false);
       List<TimerEntry> timers =
           state.timers.map((t) => TimerEntry.clone(t)).toList();
       timers.add(timer);
@@ -51,7 +54,8 @@ class TimersBloc extends Bloc<TimersEvent, TimersState> {
           projectID: event.project?.id,
           startTime: now,
           endTime: endTime,
-          finished: false);
+          finished: false,
+          countdown: true);
       List<TimerEntry> timers =
           state.timers.map((t) => TimerEntry.clone(t)).toList();
       timers.add(timer);
