@@ -42,6 +42,7 @@ abstract class L10NProvider {
   String get projectName;
   String get projects;
   String get readme;
+  String get privacy;
   String get runningTimers;
   String get save;
   String get sourceCode;

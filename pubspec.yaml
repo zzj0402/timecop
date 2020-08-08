@@ -55,6 +55,7 @@ flutter:
     - README.md
     - CHANGELOG.md
     - CONTRIBUTORS.md
+    - PRIVACY.md
     - icon.no-bg.svg
     - icon.no-bg.cyan.svg
     - fonts/LICENSE-FiraMono.txt
