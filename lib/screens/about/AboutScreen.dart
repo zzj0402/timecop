@@ -58,6 +58,11 @@ class AboutScreen extends StatelessWidget {
         LicensesPageListTile(
           icon: Icon(FontAwesomeIcons.scroll),
         ),
+        MarkdownPageListTile(
+          filename: 'PRIVACY.md',
+          title: Text('Privacy'),
+          icon: Icon(FontAwesomeIcons.archive),
+        ),
       ],
     );
   }
