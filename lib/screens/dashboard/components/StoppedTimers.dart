@@ -139,8 +139,9 @@ class StoppedTimers extends StatelessWidget {
         return BlocBuilder<DashboardBloc, DashboardState>(
           builder: (BuildContext context, DashboardState dashboardState) {
             // start our list of timers
-            var timers =
-                timersState.timers.reversed.where((timer) => timer.finished);
+            var timers = timersState.timers.reversed.where((timer) =>
+                (timer.endTime != null && timer.countdown == false) ||
+                (timer.finished));
 
             // filter based on filters
             if (dashboardState.filterStart != null) {
